@@ -13,9 +13,9 @@ def roku_init(ip):
 def app_roku_init(ip, app):
     global roku
     roku = Roku(ip, '8060')
-    continuing = roku.active_app.name == app
+    continuing = app in roku.active_app.name 
     roku.poweron()
-    (roku[app]).launch()
+    [elem for i, elem in enumerate(roku.apps) if app in elem.name][0].launch()
 
 def app_search(ip, app, query):
     app_roku_init(ip, app)
@@ -59,7 +59,7 @@ def app_search(ip, app, query):
         roku.right() # in case of sponsored/ad videos
         if select:
             roku.select()
-    if(app =='Prime Video'): 
+    elif(app =='Prime Video'): 
         time.sleep(6 if continuing else 20)
         roku.select()
         time.sleep(6.0)
@@ -126,6 +126,21 @@ def app_search(ip, app, query):
         roku.right()
         if select:
             roku.select()
+    elif('Plex' in app): 
+        time.sleep(2)
+        if not continuing:
+            time.sleep(3)
+            roku.select()
+            time.sleep(0.4)
+            roku.left()
+            time.sleep(0.4)
+            roku.up()
+            time.sleep(0.2)
+            roku.select()
+            time.sleep(0.2)
+        roku.literal(query)
+        time.sleep(0.5 * len(query))
+        [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
 
 def type(ip, text):
     roku_init(ip)
