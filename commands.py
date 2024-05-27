@@ -37,7 +37,7 @@ def app_search(ip, app, query):
             roku.select()
             time.sleep(0.2)
         roku.literal(query)
-        time.sleep(0.5 * len(query));
+        time.sleep(0.5 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
         if select:
             roku.select()
@@ -126,4 +126,8 @@ def app_search(ip, app, query):
         roku.right()
         if select:
             roku.select()
+
+def type(ip, text):
+    roku_init(ip)
+    roku.literal(text)
 
