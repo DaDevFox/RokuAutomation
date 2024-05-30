@@ -14,9 +14,9 @@ def app_roku_init(ip, app):
     global roku
     global continuing
     roku = Roku(ip, '8060')
-    continuing = app in roku.active_app.name 
+    continuing = app.lower() in roku.active_app.name.lower()
     roku.poweron()
-    [elem for i, elem in enumerate(roku.apps) if app in elem.name][0].launch()
+    [elem for i, elem in enumerate(roku.apps) if app.lower() in elem.name.lower()][0].launch()
 
 def app_search(ip, app, query):
     app_roku_init(ip, app)
