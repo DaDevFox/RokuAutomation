@@ -28,6 +28,7 @@ def app_search(ip, app, query):
     if(app =='Netflix'): 
         time.sleep(2)
         if not continuing:
+            print("navigating")
             time.sleep(6)
             roku.select()
             time.sleep(1.0)
@@ -37,6 +38,7 @@ def app_search(ip, app, query):
             time.sleep(0.2)
             roku.select()
             time.sleep(2)
+        print("searching")
         roku.literal(query)
         time.sleep(0.2 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
@@ -46,6 +48,7 @@ def app_search(ip, app, query):
             roku.select()
     elif(app =='YouTube'): 
         time.sleep(20)
+        print("navigating")
         roku.back() # for occasional startup modal
         time.sleep(2)
         roku.left()
@@ -55,6 +58,7 @@ def app_search(ip, app, query):
         roku.select()
         time.sleep(2)
         roku.right() 
+        print("searching")
         roku.literal(query)
         time.sleep(0.2 * len(query))
         roku.left()
@@ -66,6 +70,7 @@ def app_search(ip, app, query):
         time.sleep(6 if continuing else 20)
         roku.select()
         time.sleep(6.0)
+        print("navigating")
         roku.down()
         time.sleep(0.8)
         roku.left()
@@ -74,7 +79,8 @@ def app_search(ip, app, query):
         time.sleep(0.8)
         roku.select()
         time.sleep(2)
-
+        
+        print("searching")
         curr_x = 0
         curr_y = 0
         move_delay = 0.01
@@ -132,6 +138,7 @@ def app_search(ip, app, query):
     elif('Plex' in app): 
         time.sleep(2)
         if not continuing:
+            print("navigating")
             time.sleep(3)
             roku.select()
             time.sleep(0.4)
@@ -141,9 +148,12 @@ def app_search(ip, app, query):
             time.sleep(0.2)
             roku.select()
             time.sleep(0.2)
+        print("searching")
         roku.literal(query)
         time.sleep(0.5 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
+    
+    print("complete")
 
 def up(ip):
     roku_init(ip)
