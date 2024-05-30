@@ -12,6 +12,7 @@ def roku_init(ip):
 
 def app_roku_init(ip, app):
     global roku
+    global continuing
     roku = Roku(ip, '8060')
     continuing = app in roku.active_app.name 
     roku.poweron()
@@ -35,11 +36,13 @@ def app_search(ip, app, query):
             roku.up()
             time.sleep(0.2)
             roku.select()
-            time.sleep(0.2)
+            time.sleep(2)
         roku.literal(query)
-        time.sleep(0.5 * len(query))
+        time.sleep(0.2 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
         if select:
+            roku.select()
+            time.sleep(0.2)
             roku.select()
     elif(app =='YouTube'): 
         time.sleep(20)
@@ -142,7 +145,45 @@ def app_search(ip, app, query):
         time.sleep(0.5 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
 
+def up(ip):
+    roku_init(ip)
+    roku.up()
+
+def down(ip):
+    roku_init(ip)
+    roku.down()
+
+def left(ip):
+    roku_init(ip)
+    roku.left()
+
+def right(ip):
+    roku_init(ip)
+    roku.right()
+
 def type(ip, text):
     roku_init(ip)
     roku.literal(text)
 
+def vol_up(ip):
+    roku_init(ip)
+    roku.volume_up()
+
+def vol_down(ip):
+    roku_init(ip)
+    roku.volume_down()
+
+def vol_mute(ip):
+    roku_init(ip)
+    roku.volume_mute()
+
+def poweroff(ip):
+    roku = Roku(ip, '8060')
+    roku.poewroff()
+
+def poweron(ip):
+    roku_init(ip)
+
+def click(ip):
+    roku_init(ip)
+    roku.select()
