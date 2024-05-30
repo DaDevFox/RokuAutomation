@@ -144,6 +144,22 @@ def app_search(ip, app, query):
         time.sleep(0.5 * len(query))
         [roku.right() for _ in range(6 - (ord(query[len(query) - 1]) - ord('a')) % 6)]
 
+def up(ip):
+    roku_init(ip)
+    roku.up()
+
+def down(ip):
+    roku_init(ip)
+    roku.down()
+
+def left(ip):
+    roku_init(ip)
+    roku.left()
+
+def right(ip):
+    roku_init(ip)
+    roku.right()
+
 def type(ip, text):
     roku_init(ip)
     roku.literal(text)
