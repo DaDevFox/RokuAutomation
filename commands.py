@@ -25,7 +25,7 @@ def app_search(ip, app, query):
 
     select = False
 
-    if(app =='Netflix'): 
+    if('netflix' in app.lower()): 
         time.sleep(2)
         if not continuing:
             print("navigating")
@@ -46,7 +46,7 @@ def app_search(ip, app, query):
             roku.select()
             time.sleep(0.2)
             roku.select()
-    elif(app =='YouTube'): 
+    elif('youtube' in app.lower()): 
         time.sleep(20)
         print("navigating")
         roku.back() # for occasional startup modal
@@ -66,11 +66,12 @@ def app_search(ip, app, query):
         roku.right() # in case of sponsored/ad videos
         if select:
             roku.select()
-    elif(app =='Prime Video'): 
+    elif('prime' in app.lower()): 
         time.sleep(6 if continuing else 20)
-        roku.select()
         time.sleep(6.0)
         print("navigating")
+        roku.select()
+        time.sleep(2)
         roku.down()
         time.sleep(0.8)
         roku.left()
