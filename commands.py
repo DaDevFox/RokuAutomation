@@ -1,9 +1,20 @@
 from roku import Roku; 
-import requests; 
+import sys;
 import time; 
 
 roku: Roku = None
 continuing = False
+
+
+semantic_commands = {
+    'click' : 'select',
+    'tap' : 'select',
+    'move right' : 'right',
+    'move left' : 'left',
+    'move down' : 'down',
+    'move up' : 'up',
+    'wait' : 'sleep',
+}
 
 def roku_init(ip):
     global roku
@@ -190,7 +201,7 @@ def vol_mute(ip):
 
 def poweroff(ip):
     roku = Roku(ip, '8060')
-    roku.poewroff()
+    roku.poweroff()
 
 def poweron(ip):
     roku_init(ip)
@@ -198,3 +209,56 @@ def poweron(ip):
 def click(ip):
     roku_init(ip)
     roku.select()
+
+def execute(ip, actions):
+    action_array = actions.split(' ')
+    it = enumerate(action_array)
+    for i, word in it:
+        if 'time' in word and i >= 2:
+            count = text2int(action_array[i - 1])
+            print(f"performing {count} {action_array[i - 2]} actions")
+            thismodule = sys.modules[__name__]
+            operation = getattr(thismodule, action_array[i - 2])
+            for i in range(count):
+                operation(ip)
+            next(it, None)
+            next(it, None)
+        else:
+            thismodule = sys.modules[__name__]
+            operation = getattr(thismodule, action_array[i])
+            operation(ip)
+            print(action_array[i])
+        time.sleep(0.5)
+
+
+
+# https://stackoverflow.com/questions/493174/is-there-a-way-to-convert-number-words-to-integers
+def text2int(textnum, numwords={}):
+    if not numwords:
+      units = [
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen",
+      ]
+
+      tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+
+      scales = ["hundred", "thousand", "million", "billion", "trillion"]
+
+      numwords["and"] = (1, 0)
+      for idx, word in enumerate(units):    numwords[word] = (1, idx)
+      for idx, word in enumerate(tens):     numwords[word] = (1, idx * 10)
+      for idx, word in enumerate(scales):   numwords[word] = (10 ** (idx * 3 or 2), 0)
+
+    current = result = 0
+    for word in textnum.split('-'):
+        if word not in numwords:
+          raise Exception("Illegal word: " + word)
+
+        scale, increment = numwords[word]
+        current = current * scale + increment
+        if scale > 100:
+            result += current
+            current = 0
+
+    return result + current
