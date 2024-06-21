@@ -7,13 +7,19 @@ continuing = False
 
 
 semantic_commands = {
-    'click' : 'select',
-    'tap' : 'select',
+    'select' : 'click',
+    'tap' : 'click',
+    'on' : 'poweron',
+    'off' : 'poweroff',
     'move right' : 'right',
     'move left' : 'left',
     'move down' : 'down',
     'move up' : 'up',
     'wait' : 'sleep',
+    'volume up' : 'vol_up',
+    'louder' : 'vol_up',
+    'volume down' : 'vol_down',
+    'quieter' : 'vol_down'
 }
 
 def roku_init(ip):
@@ -210,25 +216,40 @@ def click(ip):
     roku_init(ip)
     roku.select()
 
+def home(ip):
+    roku_init(ip)
+    roku.home()
+
 def execute(ip, actions):
+    delay_normal = 0.5
+    delay_chained = 0.2
+
+    for key in semantic_commands:
+        actions = actions.replace(key, semantic_commands[key])
     action_array = actions.split(' ')
     it = enumerate(action_array)
     for i, word in it:
-        if 'time' in word and i >= 2:
-            count = text2int(action_array[i - 1])
-            print(f"performing {count} {action_array[i - 2]} actions")
+        print(i)
+        if i + 2 < len(action_array) and 'time' in action_array[i + 2] or i + 1 < len(action_array) and action_array[i + 1].isnumeric():
+            if not action_array[i + 1].isnumeric():
+                count = text2int(action_array[i + 1])
+            else:
+                count = int(action_array[i + 1])
+            print(f"performing {count} {word} actions")
             thismodule = sys.modules[__name__]
-            operation = getattr(thismodule, action_array[i - 2])
+            operation = getattr(thismodule, word)
             for i in range(count):
                 operation(ip)
-            next(it, None)
+                time.sleep(delay_chained)
+            if i + 2 < len(action_array) and 'time' in action_array[i + 2]:
+                next(it, None)
             next(it, None)
         else:
             thismodule = sys.modules[__name__]
             operation = getattr(thismodule, action_array[i])
             operation(ip)
-            print(action_array[i])
-        time.sleep(0.5)
+            print(f"performing action {action_array[i]}")
+        time.sleep(delay_normal)
 
 
 
