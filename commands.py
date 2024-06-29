@@ -251,7 +251,9 @@ def execute(ip, actions):
             print(f"performing action {action_array[i]}")
         time.sleep(delay_normal)
 
-
+def back(ip):
+    roku_init(ip)
+    roku.back()
 
 # https://stackoverflow.com/questions/493174/is-there-a-way-to-convert-number-words-to-integers
 def text2int(textnum, numwords={}):
