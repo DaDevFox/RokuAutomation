@@ -8,7 +8,7 @@ The native auto-type capability for most Roku applications is incredibly fast co
 Additionally, some apps which do not implement native auto-type can be easily manipulated via other supported commands such as simple left/right/up/down/select's to auto-type based on a standard alphabetical keyboard layout at similar speeds (this is the case for Prime Video).
 
 ## Installation
-### Ensure you have python installed:
+### Ensure you have python installed
 #### Debian/Ubuntu
 `apt-get install python3 python3-dev`
 #### Alpine (iSH)
@@ -16,8 +16,14 @@ Additionally, some apps which do not implement native auto-type can be easily ma
 #### macOS and Windows
 Download and install from the python [downloads page](https://www.python.org/downloads/)
 
+### Ensure you have pip installed
+`python -m ensurepip --upgrade` (macOS/Linux) or `py -m ensurepip --upgrade` (Windows)
+
 ### Clone the script
 `git clone https://github.com/DaDevFox/RokuAutomation`
+
+### Install a dependency lib
+`pip install roku`
 
 ## Usage
 `python main.py [TV ip address] [command] [parameters]`
