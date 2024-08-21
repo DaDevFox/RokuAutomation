@@ -31,7 +31,7 @@ Download and install from the python [downloads page](https://www.python.org/dow
 
 `click`: clicks the selector
 
-`execute`: takes in a string that can specify any of the above actions in any order/repitition and executes it. Adding a number specifies how many times to perform something (e.g. 'right 2 up 4 click' goes right twice, up four times, and clicks). Also converts certain semantic phrases to commands ('move right' -> `right'; `volume up` -> `vol_up` and spelled out numbers to literal numbers)
+`execute`: takes in a string that can specify any of the above actions in any order/repitition and executes it. Adding a number specifies how many times to perform something (e.g. 'right 2 up 4 click' goes right twice, up four times, and clicks). Also converts certain semantic phrases to commands ('move right' -> `right`; 'volume up' -> `vol_up` and spelled out numbers to literal numbers)
 
 `app_search`: takes an app name (param 1) and a query (param 2); if the app isn't already open, it is opened and navigated to the appropriate "search" feature. If it is open the script assumes the user navigated to the search page already and is on the keyboard. Then it auto-types the query and searches.
 
